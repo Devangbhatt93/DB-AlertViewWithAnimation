@@ -27,19 +27,17 @@ class ViewController: UIViewController {
         createAlert()
         
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
 
     func showAlertController() {
-       
         let alertController = UIAlertController(title: "", message: "Alert", preferredStyle: .alert)
         self.present(alertController, animated: true, completion: {
             UIView.animateKeyframes(withDuration: 1.0, delay: 0.0, options: .autoreverse, animations: {() -> Void in
                 UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.5, animations: {() -> Void in
-                    
                     alertController.view.transform = alertController.view.transform.translatedBy(x: alertController.view.frame.origin.x - 10, y: alertController.view.frame.origin.y)
                 })
                 UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.5, animations: {() -> Void in
@@ -50,6 +48,29 @@ class ViewController: UIViewController {
                 alertController.dismiss(animated: true, completion: nil)
             })
         })
+    }
+    @IBAction func btnCustomAlertTapped(_ sender: UIButton) {
+        
+        let alertController = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
+        let rect = CGRect(x: 10, y: 10, width: alertController.view.bounds.size.width - 130 , height: 120)
+        let customView = UIView(frame: rect)
+        
+        customView.backgroundColor = .blue
+        alertController.view.addSubview(customView)
+        
+        let somethingAction = UIAlertAction(title: "Something", style: .default, handler: {(alert: UIAlertAction!) in print("something")
+        })
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {(alert: UIAlertAction!) in
+            print("cancel")
+        })
+        
+        alertController.addAction(somethingAction)
+        alertController.addAction(cancelAction)
+        
+        DispatchQueue.main.async {
+            self.present(alertController, animated: true, completion:{})
+        }
     }
 }
 
@@ -63,6 +84,8 @@ extension ViewController {
     @IBAction func btnShowCustomAlertTapped(_ sender: UIButton) {
         self.showAlert()
     }
+    
+    
 }
 
 
