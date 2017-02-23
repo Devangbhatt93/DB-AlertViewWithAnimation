@@ -9,7 +9,7 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     var overlayView: UIView!
     var alertView: UIView!
     var animator: UIDynamicAnimator!
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     func showAlertController() {
         let alertController = UIAlertController(title: "", message: "Alert", preferredStyle: .alert)
         self.present(alertController, animated: true, completion: {
@@ -49,6 +49,33 @@ class ViewController: UIViewController {
             })
         })
     }
+    
+    
+}
+
+extension ViewController {
+    ///Action Button To Show Native Alert Controller
+    @IBAction func btnShowAlertTapped(_ sender: UIButton) {
+        showAlertController()
+    }
+    
+    ///Action Button To Show Custom Alert Controller
+    @IBAction func btnShowCustomAlertTapped(_ sender: UIButton) {
+        self.showAlert()
+    }
+    
+    @IBAction func btnPushAnimationTapped(_ sender: UIButton) {
+        
+        let view = UIView(frame: CGRect(x: self.view.frame.maxX/2, y: 40, width: 100, height: 50))
+        self.view.addSubview(view)
+        view.backgroundColor = UIColor.blue
+        
+        let pushAnimatior = UIPushBehavior(items: [view], mode: .continuous)
+        pushAnimatior.setAngle(CGFloat(M_PI_2), magnitude: 0.5)
+        
+        animator.addBehavior(pushAnimatior)
+    }
+    
     @IBAction func btnCustomAlertTapped(_ sender: UIButton) {
         
         let alertController = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .alert)
@@ -72,20 +99,6 @@ class ViewController: UIViewController {
             self.present(alertController, animated: true, completion:{})
         }
     }
-}
-
-extension ViewController {
-    ///Action Button To Show Native Alert Controller
-    @IBAction func btnShowAlertTapped(_ sender: UIButton) {
-        showAlertController()
-    }
-    
-    ///Action Button To Show Custom Alert Controller
-    @IBAction func btnShowCustomAlertTapped(_ sender: UIButton) {
-        self.showAlert()
-    }
-    
-    
 }
 
 
