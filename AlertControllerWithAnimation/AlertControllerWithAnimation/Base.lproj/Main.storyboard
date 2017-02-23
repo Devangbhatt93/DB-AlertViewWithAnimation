@@ -54,6 +54,13 @@
                                     <action selector="btnCustomAlertTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HKX-ZM-ISe"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wO0-yD-blZ">
+                                <rect key="frame" x="248" y="579" width="107" height="30"/>
+                                <state key="normal" title="Push Animation"/>
+                                <connections>
+                                    <action selector="btnPushAnimationTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="MK0-y2-kgP"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -63,6 +70,8 @@
                             <constraint firstItem="Wm3-Sk-JxN" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="30" id="WLp-HD-dog"/>
                             <constraint firstItem="NQy-LC-C8l" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="46" id="ZKW-nl-U6H"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="NQy-LC-C8l" secondAttribute="bottom" constant="20" id="aC1-Cv-JZg"/>
+                            <constraint firstItem="wO0-yD-blZ" firstAttribute="trailing" secondItem="tsD-hm-kEm" secondAttribute="trailing" id="cSr-fF-kfL"/>
+                            <constraint firstItem="tsD-hm-kEm" firstAttribute="top" secondItem="wO0-yD-blZ" secondAttribute="bottom" constant="8" id="tMn-Pk-6Gl"/>
                         </constraints>
                     </view>
                 </viewController>
