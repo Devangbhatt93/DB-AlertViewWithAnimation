@@ -49,8 +49,6 @@ class ViewController: UIViewController {
             })
         })
     }
-    
-    
 }
 
 extension ViewController {
@@ -66,11 +64,19 @@ extension ViewController {
     
     @IBAction func btnPushAnimationTapped(_ sender: UIButton) {
         
-        let view = UIView(frame: CGRect(x: self.view.frame.maxX/2, y: 40, width: 100, height: 50))
-        self.view.addSubview(view)
-        view.backgroundColor = UIColor.blue
+        let blueBox = UIView(frame: CGRect(x: self.view.frame.maxX/2.5, y: 40, width: 100, height: 50))
+        self.view.addSubview(blueBox)
+        blueBox.backgroundColor = UIColor.blue
         
-        let pushAnimatior = UIPushBehavior(items: [view], mode: .continuous)
+        let greenBox = UIView(frame: CGRect(x: 30, y: 40, width: 100, height: 50))
+        self.view.addSubview(greenBox)
+        greenBox.backgroundColor = UIColor.green
+        
+        let yellowBox = UIView(frame: CGRect(x: self.view.frame.maxX - 110, y: 40, width: 100, height: 50))
+        self.view.addSubview(yellowBox)
+        yellowBox.backgroundColor = UIColor.yellow
+        
+        let pushAnimatior = UIPushBehavior(items: [blueBox,greenBox,yellowBox], mode: .continuous)
         pushAnimatior.setAngle(CGFloat(M_PI_2), magnitude: 0.5)
         
         animator.addBehavior(pushAnimatior)
