@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var animator: UIDynamicAnimator!
     var attachmentBehavior : UIAttachmentBehavior!
     var snapBehavior : UISnapBehavior!
+    var squareView: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,6 +49,27 @@ class ViewController: UIViewController {
                 alertController.dismiss(animated: true, completion: nil)
             })
         })
+    }
+    @IBAction func btnSnapViewTapped(_ sender: Any) {
+        squareView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+        squareView.backgroundColor = UIColor.blue
+        view.addSubview(squareView)
+        
+        animator = UIDynamicAnimator(referenceView: view)
+        
+        self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
+    }
+    
+    func handleTap(_ sender: UITapGestureRecognizer) {
+        
+        let tapPoint: CGPoint = sender.location(in: view)
+        
+        if (snapBehavior != nil) {
+            animator.removeBehavior(snapBehavior)
+        }
+        
+        snapBehavior = UISnapBehavior(item: squareView, snapTo: tapPoint)
+        animator.addBehavior(snapBehavior)
     }
 }
 
@@ -105,6 +127,7 @@ extension ViewController {
             self.present(alertController, animated: true, completion:{})
         }
     }
+    
 }
 
 
