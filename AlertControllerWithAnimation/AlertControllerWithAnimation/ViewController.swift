@@ -60,6 +60,13 @@ class ViewController: UIViewController {
         self.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(handleTap)))
     }
     
+    @IBAction func btnGravityAndCollision(_ sender: UIButton) {
+        
+        var squareView = UIView()
+        squareView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
+        squareView.backgroundColor = UIColor.blue
+        view.addSubview(squareView)
+    }
     func handleTap(_ sender: UITapGestureRecognizer) {
         
         let tapPoint: CGPoint = sender.location(in: view)
