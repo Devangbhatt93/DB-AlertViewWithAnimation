@@ -2,7 +2,7 @@
 //  ViewController.swift
 //  AlertControllerWithAnimation
 //
-//  Created by macbook on 2/20/17.
+//  Created by devang.bhatt on 2/20/17.
 //  Copyright © 2017 SolutionAnalysts. All rights reserved.
 //
 
@@ -16,24 +16,17 @@ class ViewController: UIViewController {
     var attachmentBehavior : UIAttachmentBehavior!
     var snapBehavior : UISnapBehavior!
     var squareView: UIView!
+    var gravity: UIGravityBehavior!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         // Initialize the animator
         animator = UIDynamicAnimator(referenceView: view)
-        
         // Create the dark background view and the alert view
         createOverlay()
         createAlert()
         
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func showAlertController() {
         let alertController = UIAlertController(title: "", message: "Alert", preferredStyle: .alert)
         self.present(alertController, animated: true, completion: {
@@ -50,13 +43,36 @@ class ViewController: UIViewController {
             })
         })
     }
-
-    }
+    
+}
 
 extension ViewController {
     ///Action Button To Show Native Alert Controller
     @IBAction func btnShowAlertTapped(_ sender: UIButton) {
         showAlertController()
+        
+        let label = UILabel(frame: CGRect(x: (self.view.frame.size.width / 2) - 60, y: 0, width: UIScreen.main.bounds.size.width / 2, height: 25))
+        self.view.addSubview(label)
+        label.text = "Toast Message"
+        label.textColor = UIColor.white
+        label.backgroundColor = UIColor.black
+        label.numberOfLines = 0
+        label.sizeToFit()
+        label.clipsToBounds = true
+        label.layer.cornerRadius = 6.0
+        
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: .curveLinear, animations: {
+            label.frame = CGRect(x: (self.view.frame.size.width / 2) - 60, y: (UIScreen.main.bounds.size.height / 2) - (120 * 2) , width: label.frame.size.width, height: label.frame.size.height)
+        }, completion: {(completion) in
+            
+            UIView.animate(withDuration: 0.8, delay: 1.2, options: .curveLinear, animations: {
+                label .alpha = 0.0
+            }, completion: { _ in
+            
+                label .removeFromSuperview()
+            
+            })
+        })
     }
     
     ///Action Button To Show Custom Alert Controller
@@ -76,10 +92,24 @@ extension ViewController {
     
     @IBAction func btnGravityAndCollision(_ sender: UIButton) {
         
-        var squareView = UIView()
+        var collision: UICollisionBehavior!
+        var itemBehaviour: UIDynamicItemBehavior!
+        
         squareView = UIView(frame: CGRect(x: 100, y: 100, width: 100, height: 100))
         squareView.backgroundColor = UIColor.blue
         view.addSubview(squareView)
+        
+        animator = UIDynamicAnimator(referenceView: view)
+        gravity = UIGravityBehavior(items: [squareView])
+        animator.addBehavior(gravity)
+        
+        collision = UICollisionBehavior(items: [squareView])
+        collision.translatesReferenceBoundsIntoBoundary = true
+        animator.addBehavior(collision)
+        
+        itemBehaviour = UIDynamicItemBehavior(items: [squareView])
+        itemBehaviour.elasticity = 0.7
+        animator.addBehavior(itemBehaviour)
     }
     
     @IBAction func btnPushAnimationTapped(_ sender: UIButton) {
@@ -139,11 +169,10 @@ extension ViewController {
         if (snapBehavior != nil) {
             animator.removeBehavior(snapBehavior)
         }
-        
         snapBehavior = UISnapBehavior(item: squareView, snapTo: tapPoint)
         animator.addBehavior(snapBehavior)
     }
-
+    
     
     func createOverlay() {
         // Create a gray view and set its alpha to 0 so it isn't visible
@@ -161,13 +190,13 @@ extension ViewController {
         alertView = UIView(frame: alertViewFrame)
         alertView.backgroundColor = UIColor.red
         alertView.alpha = 0.0
-        alertView.layer.cornerRadius = 10;
+        alertView.layer.cornerRadius = 10
         alertView.layer.shadowColor = UIColor.black.cgColor;
         alertView.layer.shadowOffset = CGSize(width: 0, height: 5);
-        alertView.layer.shadowOpacity = 0.3;
-        alertView.layer.shadowRadius = 10.0;
+        alertView.layer.shadowOpacity = 0.3
+        alertView.layer.shadowRadius = 10.0
         
-        // Create a button and set a listener on it for when it is tapped. Then the button is added to the alert view
+        // Create a button and set a selector on it for when it is tapped. Then the button is added to the alert view
         let button = UIButton(type: .system)
         button.setTitle("Dismiss", for: UIControlState())
         button.backgroundColor = UIColor.white
@@ -203,17 +232,17 @@ extension ViewController {
         // Animate the alert view using UIKit Dynamics.
         alertView.alpha = 1.0
         
-        let snapBehaviour: UISnapBehavior = UISnapBehavior(item: alertView, snapTo: view.center)
-        animator.addBehavior(snapBehaviour)
+        snapBehavior = UISnapBehavior(item: alertView, snapTo: view.center)
+        animator.addBehavior(snapBehavior)
     }
     
     func dismissAlert() {
         
         animator.removeAllBehaviors()
         
-        let gravityBehaviour: UIGravityBehavior = UIGravityBehavior(items: [alertView])
-        gravityBehaviour.gravityDirection = CGVector(dx: 0.0, dy: 10.0);
-        animator.addBehavior(gravityBehaviour)
+        gravity = UIGravityBehavior(items: [alertView])
+        gravity.gravityDirection = CGVector(dx: 0.0, dy: 10.0);
+        animator.addBehavior(gravity)
         
         // This behaviour is included so that the alert view tilts when it falls, otherwise it will go straight down
         let itemBehaviour: UIDynamicItemBehavior = UIDynamicItemBehavior(items: [alertView])
@@ -223,9 +252,7 @@ extension ViewController {
         // Animate out the overlay, remove the alert view from its superview and set it to nil
         // If you don't set it to nil, it keeps falling off the screen and when Show Alert button is
         // tapped again, it will snap into view from below. It won't have the location settings we defined in createAlert()
-        // And the more it 'falls' off the screen, the longer it takes to come back into view, so when the Show Alert button
-        // is tapped again after a considerable time passes, the app seems unresponsive for a bit of time as the alert view
-        // comes back up to the screen
+        
         UIView.animate(withDuration: 0.4, animations: {
             self.overlayView.alpha = 0.0
         }, completion: {
@@ -233,13 +260,13 @@ extension ViewController {
             self.alertView.removeFromSuperview()
             self.alertView = nil
         })
-        
     }
     
     func createGestureRecognizer() {
         let panGestureRecognizer: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.handlePan(_:)))
         view.addGestureRecognizer(panGestureRecognizer)
     }
+    
     func handlePan(_ sender: UIPanGestureRecognizer) {
         
         if (alertView != nil) {
